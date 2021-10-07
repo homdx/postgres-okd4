@@ -1,0 +1,27 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: data-postgres12-postgresql-0 
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  namespace: postgres
+  nodeSelector:
+    storage: pvc-postgresql
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/usrlocal/pvc2/"
+    # Path for RHCOS (CoreOS)
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: storage
+          operator: In
+          values:
+          - pvc-postgresql
